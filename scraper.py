@@ -12,6 +12,8 @@ from selenium.webdriver.chrome.options import Options
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
 driver = webdriver.Chrome(ChromeDriverManager().install(),options=chrome_options)
 TOKEN = os.environ.get('ACCESS_TOKEN')
 streets = []
