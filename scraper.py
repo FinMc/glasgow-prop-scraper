@@ -3,7 +3,6 @@ from datetime import datetime
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
-import asyncio
 import discord
 import time
 import os
@@ -137,9 +136,9 @@ while True:
             link = '''https://www.onthemarket.com''' + \
                 a.find('div', attrs={'class': 'otm-PropertyCardMedia'}).find('a')['href']
             imageR = a.find(
-                'div', attrs={'class': 'swiper-slide swiper-slide-active'})
+                'div', attrs={'class': 'swiper-slide swiper-slide-active'}).find('img')
             if imageR:
-                image = imageR.find('img')['src']
+                image = imageR['src']
             else:
                 image = None
             streets.append(street)
@@ -252,12 +251,12 @@ while True:
     #     fo.write("export const data = { 0: \"" + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\" }")
     if len(strings) > 0:
         client = discord.Client()
-        @asyncio.coroutine
-        def on_ready():
+        @client.event
+        async def on_ready():
             channel = client.get_channel(1009529852728197274)
             for j in strings:
-                yield from channel.send(j)
-            yield from client.close()
+                await channel.send(j)
+            await client.close()
         client.run(TOKEN)
     print("Checked for flats")
     time.sleep(300)
