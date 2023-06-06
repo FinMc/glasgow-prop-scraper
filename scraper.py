@@ -6,14 +6,20 @@ import pandas as pd
 import discord
 import time
 import os
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+from hitchchrome import ChromeBuild
+chrome_build = ChromeBuild("./chrome84", "84")
+chrome_build.ensure_built()
+# from webdriver_manager.chrome import ChromeDriverManager
+# from selenium.webdriver.chrome.options import Options
 
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox")
-driver = webdriver.Chrome(ChromeDriverManager(path = r".\\Drivers").install(),options=chrome_options)
+driver = chrome_build.webdriver(
+    headless=True,
+    arguments=[
+        "--headless",
+        "--disable-dev-shm-usage",
+        "--no-sandbox",
+    ]
+)
 TOKEN = os.environ.get('ACCESS_TOKEN')
 streets = []
 areas = []
@@ -219,10 +225,10 @@ while True:
             sent_reqs.append(link)
 
     rightMove()
-    zoopla()
-    onTheMarket()
-    openRent()
-    clyde()
+    # zoopla()
+    # onTheMarket()
+    # openRent()
+    # clyde()
     strings = []
     times = [time.strftime("%H:%M %Y/%m/%d")] * len(availables)
     df = pd.DataFrame({"Req": sent_reqs, "Street": streets, "Area": areas, "Price": prices, "Available": availables, "Link": links, "Added":  times, "Image": images})
