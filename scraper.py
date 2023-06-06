@@ -136,9 +136,9 @@ while True:
             link = '''https://www.onthemarket.com''' + \
                 a.find('div', attrs={'class': 'otm-PropertyCardMedia'}).find('a')['href']
             imageR = a.find(
-                'div', attrs={'class': 'swiper-slide swiper-slide-active'}).find('img')
+                'div', attrs={'class': 'swiper-slide swiper-slide-active'})
             if imageR:
-                image = imageR['src']
+                image = imageR.find('img')['src']
             else:
                 image = None
             streets.append(street)
